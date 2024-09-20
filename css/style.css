@@ -4,7 +4,8 @@
     box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
     height: 100%;
     width: 100%;
     font-family: Arial, sans-serif;
@@ -48,10 +49,10 @@ body {
 }
 
 .header ion-icon {
-    font-size: 24px; 
+    font-size: 24px;
     margin-right: 10px;
-    vertical-align: middle; 
-    top: 2px; 
+    vertical-align: middle;
+    top: 2px;
 }
 
 .login-container {
@@ -62,10 +63,10 @@ body {
     text-align: center;
     width: 100%;
     max-width: 400px;
-    margin-top: 150px; 
+    margin-top: 150px;
 }
 
-.login-container input[type="email"], 
+.login-container input[type="email"],
 .login-container input[type="password"] {
     width: 100%;
     padding: 10px;
