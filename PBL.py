@@ -204,7 +204,7 @@ df = pd.DataFrame(image_pairs, columns=['Anchor', 'Image'])
 df['Label'] = labels
 
 # Hiển thị DataFrame
-display(df)
+# display(df)
 
 
 # # Xây dựng phân chia giữa tập huấn luyện và tập kiểm tra
@@ -516,7 +516,7 @@ y
 # In[61]:
 
 
-get_ipython().run_line_magic('pinfo2', 'tf.losses.BinaryCrossentropy')
+# get_ipython().run_line_magic('pinfo2', 'tf.losses.BinaryCrossentropy')
 
 
 # In[62]:
