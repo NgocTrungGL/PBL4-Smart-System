@@ -308,25 +308,31 @@ for image in os.listdir(os.path.join('application_data', 'verification_images'))
     validation_img = os.path.join('application_data', 'verification_images', image)
     print(validation_img)
 
-def verify(model, detection_threshold, verification_threshold):
-    # Tạo mảng kết quả
-    results = []
-    for image in os.listdir(os.path.join('application_data', 'verification_images')):
-        input_img = preprocess(os.path.join('application_data', 'input_image', 'input_image.jpg'))
-        validation_img = preprocess(os.path.join('application_data', 'verification_images', image))
+cap = cv2.VideoCapture(0)  # Mở kết nối đến webcam
+while cap.isOpened():  # Khi webcam mở
+    ret, frame = cap.read()  # Đọc khung hình từ webcam
+    frame = frame[120:120+250, 200:200+250, :]  # Cắt khung hình thành kích thước 250x250px
+    
+    cv2.imshow('Verification', frame)  # Hiển thị khung hình trong cửa sổ 'Verification'
+    
+    # Kích hoạt xác minh
+    if cv2.waitKey(10) & 0xFF == ord('v'):
+        # Lưu hình ảnh đầu vào vào thư mục application_data/input_image
+        cv2.imwrite(os.path.join('application_data', 'input_image', 'input_image.jpg'), frame)
         
-        # Dự đoán
-        result = model.predict(list(np.expand_dims([input_img, validation_img], axis=1)))
-        results.append(result)
+        # Thực hiện xác minh và nhận diện danh tính
+        results, verified_identity = verify(siamese_model, 0.5, 0.5)
+        if verified_identity:
+            print(f"Nhận diện thành công: {verified_identity}")
+        else:
+            print("Không nhận diện được khuôn mặt.")
     
-    # Ngưỡng phát hiện: Chỉ số trên đó một dự đoán được coi là dương
-    detection = np.sum(np.array(results) > detection_threshold)
-    
-    # Ngưỡng xác minh: Tỷ lệ dự đoán dương / tổng số mẫu dương
-    verification = detection / len(os.listdir(os.path.join('application_data', 'verification_images'))) 
-    verified = verification > verification_threshold
-    
-    return results, verified
+    if cv2.waitKey(10) & 0xFF == ord('q'):  # Nếu nhấn 'q', thoát khỏi vòng lặp
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+
 
 cap = cv2.VideoCapture(0)  # Mở kết nối đến webcam
 while cap.isOpened():  # Khi webcam mở
@@ -339,12 +345,16 @@ while cap.isOpened():  # Khi webcam mở
     if cv2.waitKey(10) & 0xFF == ord('v'):
         # Lưu hình ảnh đầu vào vào thư mục application_data/input_image
         cv2.imwrite(os.path.join('application_data', 'input_image', 'input_image.jpg'), frame)
-        # Thực hiện xác minh
-        results, verified = verify(siamese_model, 0.5, 0.5)
-        print(verified)  # In kết quả xác minh
+        
+        # Thực hiện xác minh và nhận diện danh tính
+        results, verified_identity = verify(siamese_model, 0.5, 0.5)
+        if verified_identity:
+            print(f"Nhận diện thành công: {verified_identity}")
+        else:
+            print("Không nhận diện được khuôn mặt.")
     
     if cv2.waitKey(10) & 0xFF == ord('q'):  # Nếu nhấn 'q', thoát khỏi vòng lặp
         break
 
 cap.release()
-cv2.destroyAllWindows()  
+cv2.destroyAllWindows()
