@@ -79,7 +79,7 @@ def preprocess(file_path):
     # Trả về hình ảnh đã được xử lý
     return img
 
-img = preprocess('data\\anchor\\p2.jpg')
+img = preprocess('data\\anchor\\c0c715c0-135f-11ec-892f-a0cec8d2d278.jpg')
 img.numpy().max() 
 
 positives = tf.data.Dataset.zip((anchor, positive, tf.data.Dataset.from_tensor_slices(tf.ones(len(anchor)))))
@@ -266,7 +266,7 @@ def train(data, EPOCHS):
             checkpoint.save(file_prefix=checkpoint_prefix)
 
 EPOCHS = 50
-train(train_data, EPOCHS)
+# train(train_data, EPOCHS)
 from tensorflow.keras.metrics import Precision, Recall
 
 test_input, test_val, y_true = test_data.as_numpy_iterator().next()
