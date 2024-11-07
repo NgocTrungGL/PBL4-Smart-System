@@ -25,7 +25,18 @@ def send_signal_to_microcontroller(detected):
     time.sleep(1)  # Dừng 1 giây để đảm bảo tín hiệu được truyền đi
 
 # Ví dụ sử dụng hàm khi phát hiện khuôn mặt
-face_detected = True  # Đặt thành True nếu nhận diện được khuôn mặt
+def input_bool(prompt="Nhập True hoặc False: "):
+    while True:
+        user_input = input(prompt).strip().lower()
+        if user_input in ["true", "false"]:
+            return user_input == "true"
+        else:
+            print("Vui lòng nhập 'True' hoặc 'False'.")
+
+# Sử dụng hàm
+gia_tri = input_bool()
+
+face_detected = gia_tri  # Đặt thành True nếu nhận diện được khuôn mặt
 send_signal_to_microcontroller(face_detected)
 
 # Đóng kết nối khi không cần thiết
