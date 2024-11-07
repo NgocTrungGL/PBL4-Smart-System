@@ -79,7 +79,7 @@ def preprocess(file_path):
     # Trả về hình ảnh đã được xử lý
     return img
 
-img = preprocess('data\\anchor\\p2.jpg')
+img = preprocess('data\\anchor\\c0c715c0-135f-11ec-892f-a0cec8d2d278.jpg')
 img.numpy().max() 
 
 positives = tf.data.Dataset.zip((anchor, positive, tf.data.Dataset.from_tensor_slices(tf.ones(len(anchor)))))
@@ -158,14 +158,11 @@ embedding = make_embedding()
 
 embedding.summary()
 
-# Siamese L1 Distance class
-class L1Dist(Layer):
-    
+class L1Dist(Layer):   
     # Init method - inheritance
     def __init__(self, **kwargs):
         super().__init__()
        
-    # Magic happens here - similarity calculation
     def call(self, input_embedding, validation_embedding):
         return tf.math.abs(input_embedding - validation_embedding)
 l1 = L1Dist()
@@ -269,7 +266,7 @@ def train(data, EPOCHS):
             checkpoint.save(file_prefix=checkpoint_prefix)
 
 EPOCHS = 50
-train(train_data, EPOCHS)
+# train(train_data, EPOCHS)
 from tensorflow.keras.metrics import Precision, Recall
 
 test_input, test_val, y_true = test_data.as_numpy_iterator().next()
@@ -349,10 +346,5 @@ while cap.isOpened():  # Khi webcam mở
     if cv2.waitKey(10) & 0xFF == ord('q'):  # Nếu nhấn 'q', thoát khỏi vòng lặp
         break
 
-cap.release()  # Giải phóng webcam
-cv2.destroyAllWindows()  # Đóng tất cả cửa sổ
-
-
-
-
-
+cap.release()
+cv2.destroyAllWindows()  
