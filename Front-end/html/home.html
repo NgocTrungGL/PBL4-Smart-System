@@ -1,66 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Lịch sử đăng nhập</title>
-        <link rel="stylesheet" href="../css/home.css" />
-    </head>
-    <body>
-        <div class="logo">
-            <img src="../Img/logo.png" alt="Logo" />
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="../css/home.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <header class="header">
+        <nav class="navbar">
+            <a href="#">Home</a>
+            <a href="#">History</a>
+            <a href="#">User Management</a>
+            <a href="#">Setting</a>
+            <a href="#">Help</a>
+            <a href="#">Logout</a>
+        </nav>
+
+    </header>
+
+
+
+    <div class="background"></div>
+    <div class="container">
+        <div class="content">
+            
+                
+            </div>
         </div>
-        <div class="header"></div>
-        <button class="face-button">
-            <img src="../Img/Face ID.svg" alt="Face Icon" />
-        </button>
-        <div class="login-history-container">
-            <h2>Lịch sử đăng nhập</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>UserID</th>
-                        <th>Thời gian</th>
-                        <th>Tên đăng nhập</th>
-                        <th>Trạng thái</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>001</td>
-                        <td>2024-09-20 08:45:00</td>
-                        <td>ngoctung</td>
-                        <td class="status-success">Thành công</td>
-                    </tr>
-                    <tr>
-                        <td>002</td>
-                        <td>2024-09-19 18:30:00</td>
-                        <td>minhphuong</td>
-                        <td class="status-failed">Thất bại</td>
-                    </tr>
-                    <tr>
-                        <td>003</td>
-                        <td>2024-09-18 14:10:00</td>
-                        <td>anhdung</td>
-                        <td class="status-success">Thành công</td>
-                    </tr>
-                    <tr>
-                        <td>004</td>
-                        <td>2024-09-17 11:00:00</td>
-                        <td>hoangson</td>
-                        <td class="status-failed">Thất bại</td>
-                    </tr>
-                    <tr>
-                        <td>005</td>
-                        <td>2024-09-17 11:00:00</td>
-                        <td>anh phuoc</td>
-                        <td class="status-failed">Thất bại</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <button class="return-button" onclick="window.scrollTo(0, 0);">
-            Return
-        </button>
-    </body>
+    </div>
+
+
+
+</body>
+
 </html>
