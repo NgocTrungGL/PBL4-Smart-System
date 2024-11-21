@@ -10,7 +10,7 @@ for port in ports:
 
 # Kết nối với Arduino qua cổng Serial (thay 'COM3' bằng cổng Serial của bạn)
 try:
-    ser = serial.Serial('COM3', 9600)  # Chọn tốc độ baud tương ứng với Arduino (9600)
+    ser = serial.Serial('COM4', 9600)  # Chọn tốc độ baud tương ứng với Arduino (9600)
     time.sleep(2)  # Chờ một chút để Arduino khởi động
 except serial.SerialException as e:
     print(f"Lỗi mở cổng: {e}")

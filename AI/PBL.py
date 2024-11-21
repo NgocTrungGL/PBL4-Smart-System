@@ -1,6 +1,5 @@
 import cv2
 import os
-import random
 import numpy as np
 import uuid
 from matplotlib import pyplot as plt
@@ -8,6 +7,11 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Layer, Conv2D, Dense, MaxPooling2D, Input, Flatten
 import tensorflow as tf
 from tensorflow.keras.metrics import Precision, Recall
+# import Arduino.connectArduino as arduino
+import serial
+import time
+import serial.tools.list_ports
+
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 for gpu in gpus: 
@@ -20,39 +24,39 @@ ANC_PATH = os.path.join('data', 'anchor')
 os.path.join(ANC_PATH, '{}.jpg'.format(uuid.uuid1()))
 
 # Thiết lập kết nối với webcam
-cap = cv2.VideoCapture(0)
-while cap.isOpened(): 
-    ret, frame = cap.read()
+# cap = cv2.VideoCapture(0)
+# while cap.isOpened(): 
+#     ret, frame = cap.read()
    
-    # Cắt khung hình thành kích thước 250x250px
-    frame = frame[120:120+250, 200:200+250, :]
+#     # Cắt khung hình thành kích thước 250x250px
+#     frame = frame[120:120+250, 200:200+250, :]
     
-    # Thu thập hình ảnh anchor 
-    if cv2.waitKey(1) & 0XFF == ord('a'):
-        # Tạo đường dẫn tệp tin duy nhất 
-        imgname = os.path.join(ANC_PATH, '{}.jpg'.format(uuid.uuid1()))
-        # Ghi hình ảnh anchor ra tệp
-        cv2.imwrite(imgname, frame)
+#     # Thu thập hình ảnh anchor 
+#     if cv2.waitKey(1) & 0XFF == ord('a'):
+#         # Tạo đường dẫn tệp tin duy nhất 
+#         imgname = os.path.join(ANC_PATH, '{}.jpg'.format(uuid.uuid1()))
+#         # Ghi hình ảnh anchor ra tệp
+#         cv2.imwrite(imgname, frame)
     
-    # Thu thập hình ảnh positive
-    if cv2.waitKey(1) & 0XFF == ord('p'):
-        # Tạo đường dẫn tệp tin duy nhất 
-        imgname = os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1()))
-        # Ghi hình ảnh positive ra tệp
-        cv2.imwrite(imgname, frame)
+#     # Thu thập hình ảnh positive
+#     if cv2.waitKey(1) & 0XFF == ord('p'):
+#         # Tạo đường dẫn tệp tin duy nhất 
+#         imgname = os.path.join(POS_PATH, '{}.jpg'.format(uuid.uuid1()))
+#         # Ghi hình ảnh positive ra tệp
+#         cv2.imwrite(imgname, frame)
     
-    # Hiện hình ảnh lên màn hình
-    cv2.imshow('Image Collection', frame)
+#     # Hiện hình ảnh lên màn hình
+#     cv2.imshow('Image Collection', frame)
     
-    # Thoát chương trình một cách an toàn
-    if cv2.waitKey(1) & 0XFF == ord('q'):
-        break
+#     # Thoát chương trình một cách an toàn
+#     if cv2.waitKey(1) & 0XFF == ord('q'):
+#         break
         
-# Giải phóng webcam
-cap.release()
-# Đóng khung hình hiển thị hình ảnh
-cv2.destroyAllWindows()
-plt.imshow(frame[120:120+250,200:200+250, :])
+# # Giải phóng webcam
+# cap.release()
+# # Đóng khung hình hiển thị hình ảnh
+# cv2.destroyAllWindows()
+# plt.imshow(frame[120:120+250,200:200+250, :])
 
 anchor = tf.data.Dataset.list_files(ANC_PATH+'\*.jpg').take(3000)
 positive = tf.data.Dataset.list_files(POS_PATH+'\*.jpg').take(3000)
@@ -79,7 +83,7 @@ def preprocess(file_path):
     # Trả về hình ảnh đã được xử lý
     return img
 
-img = preprocess('data\\anchor\\c0c715c0-135f-11ec-892f-a0cec8d2d278.jpg')
+img = preprocess('data\\anchor\\417ba4e0-92e2-11ef-b562-b3ffed7185e3.jpg')
 img.numpy().max() 
 
 positives = tf.data.Dataset.zip((anchor, positive, tf.data.Dataset.from_tensor_slices(tf.ones(len(anchor)))))
@@ -114,23 +118,18 @@ inp = Input(shape=(100,100,3), name='input_image')
 
 
 c1 = Conv2D(64, (10,10), activation='relu')(inp)
-
 m1 = MaxPooling2D(64, (2,2), padding='same')(c1)
-
 c2 = Conv2D(128, (7,7), activation='relu')(m1)
 m2 = MaxPooling2D(64, (2,2), padding='same')(c2)
-
 c3 = Conv2D(128, (4,4), activation='relu')(m2)
 m3 = MaxPooling2D(64, (2,2), padding='same')(c3)
-
 c4 = Conv2D(256, (4,4), activation='relu')(m3)
 f1 = Flatten()(c4)
 d1 = Dense(4096, activation='sigmoid')(f1)
 
-
 mod = Model(inputs=[inp], outputs=[d1], name='embedding')
 
-mod.summary()
+# mod.summary()
 
 def make_embedding(): 
     inp = Input(shape=(100, 100, 3), name='input_image')
@@ -156,7 +155,7 @@ def make_embedding():
 
 embedding = make_embedding()
 
-embedding.summary()
+# embedding.summary()
 
 class L1Dist(Layer):   
     # Init method - inheritance
@@ -182,7 +181,7 @@ classifier = Dense(1, activation='sigmoid')(distances)
 
 siamese_network = Model(inputs=[input_image, validation_image], outputs=classifier, name='SiameseNetwork')
 
-siamese_network.summary()
+# siamese_network.summary()
 
 def make_siamese_model(): 
     
@@ -202,7 +201,7 @@ def make_siamese_model():
     
     return Model(inputs=[input_image, validation_image], outputs=classifier, name='SiameseNetwork')
 siamese_model = make_siamese_model()
-siamese_model.summary()
+# siamese_model.summary()
 binary_cross_loss = tf.losses.BinaryCrossentropy()
 opt = tf.keras.optimizers.Adam(1e-4) # 0.0001
 checkpoint_dir = './training_checkpoints'
@@ -266,7 +265,7 @@ def train(data, EPOCHS):
             checkpoint.save(file_prefix=checkpoint_prefix)
 
 EPOCHS = 50
-# train(train_data, EPOCHS)
+train(train_data, EPOCHS)
 from tensorflow.keras.metrics import Precision, Recall
 
 test_input, test_val, y_true = test_data.as_numpy_iterator().next()
@@ -298,7 +297,7 @@ siamese_model = tf.keras.models.load_model('siamesemodelv2.h5',
 siamese_model.predict([test_input, test_val])
 
 
-siamese_model.summary()
+# siamese_model.summary()
 
 os.listdir(os.path.join('application_data', 'verification_images'))
 
@@ -341,10 +340,41 @@ while cap.isOpened():  # Khi webcam mở
         cv2.imwrite(os.path.join('application_data', 'input_image', 'input_image.jpg'), frame)
         # Thực hiện xác minh
         results, verified = verify(siamese_model, 0.5, 0.5)
-        print(verified)  # In kết quả xác minh
+        
+        # arduino
+        
+        ports = serial.tools.list_ports.comports()
+        for port in ports:
+            print(port)
+
+        # Kết nối với Arduino qua cổng Serial (thay 'COM3' bằng cổng Serial của bạn)
+        try:
+            ser = serial.Serial('COM4', 9600)  # Chọn tốc độ baud tương ứng với Arduino (9600)
+            time.sleep(2)  # Chờ một chút để Arduino khởi động
+        except serial.SerialException as e:
+            print(f"Lỗi mở cổng: {e}")
+            exit(1)
+
+        def send_signal_to_microcontroller(detected):
+            if detected:
+                ser.write(b'1')  # Gửi giá trị '1' khi nhận diện khuôn mặt
+                print("Đã gửi tín hiệu: 1")
+            else:
+                ser.write(b'0')  # Gửi giá trị '0' nếu không nhận diện
+                print("Đã gửi tín hiệu: 0")
+            time.sleep(1)  # Dừng 1 giây để đảm bảo tín hiệu được truyền đi
+
+        face_detected = verified  # Đặt thành True nếu nhận diện được khuôn mặt
+        send_signal_to_microcontroller(face_detected)
+
+        ser.close()
+        
+        #---
+        
+        print(verified)
     
     if cv2.waitKey(10) & 0xFF == ord('q'):  # Nếu nhấn 'q', thoát khỏi vòng lặp
         break
 
 cap.release()
-cv2.destroyAllWindows()  
+cv2.destroyAllWindows()
