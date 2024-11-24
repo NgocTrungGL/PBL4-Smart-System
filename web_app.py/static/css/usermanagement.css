@@ -60,17 +60,27 @@ body {
     filter: blur(10px);
 }
 
-.container{
-    position: absolute;
-    top:50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 75%;
-    height: 550px;
-    background: #e4e4e4;
-    background-size: cover;
-    background-position: center;
-    border-radius: 10px;
-    margin-top: 20px;
+
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
 }
 
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-table th, .user-table td {
+    padding: 10px;
+    text-align: left;
+}
+
+.user-table th {
+    background-color: #f4f4f4;
+}
+
+.user-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
