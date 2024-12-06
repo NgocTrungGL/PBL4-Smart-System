@@ -12,27 +12,39 @@
 
 <body>
 
-    <header class="header">
-        <nav class="navbar">
-            <a href="#">Home</a>
-            <a href="./history.html">History</a>
-            <a href="./usermanagement.html">User Management</a>
-            <a href="./help.html">Help</a>
-            <a href="#">Logout</a>
-        </nav>
-
-    </header>
-
-
-
-    <div class="background"></div>
-    <div class="container">
-        <div class="content">
-            
-                
+    <div id="wrapper">
+        <header>
+            <div class="inner-header container">
+                <a href="" id="logo">TNPT</a>
+                <nav>
+                    <ul id="main-menu">
+                        <li><a href="home.html">Trang chủ</a></li>
+                        <li><a href="history.html">Lịch sử</a></li>
+                        <li><a href="usermanagement.html">Quản lí người dùng</a></li>
+                        <li><a href="help.html">Giúp đỡ</a></li>
+                        <li><a href="login.html">Đăng xuất</a></li>
+                    </ul>
+                </nav>
             </div>
+        </header>
+
+        <div id="banner">
+
         </div>
+        
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(window).scroll(function(){
+                if($(this).scrollTop()){
+                    $('header').addClass('sticky');
+                } else{
+                    $('header').removeClass('sticky');
+                }
+            });
+        });
+    </script>
 
 
 

@@ -12,27 +12,89 @@
 
 <body>
 
-    <header class="header">
-        <nav class="navbar">
-            <a href="#">Home</a>
-            <a href="./history.html">History</a>
-            <a href="./usermanagement.html">User Management</a>
-            <a href="./help.html">Help</a>
-            <a href="#">Logout</a>
-        </nav>
-
-    </header>
-
-
-
-    <div class="background"></div>
-    <div class="container">
-        <div class="content">
-            
-                
+    <div id="wrapper">
+        <header>
+            <div class="inner-header container">
+                <a href="" id="logo">TNPT</a>
+                <nav>
+                    <ul id="main-menu">
+                        <li><a href="home.html">Trang chủ</a></li>
+                        <li><a href="history.html">Lịch sử</a></li>
+                        <li><a href="usermanagement.html">Quản lí người dùng</a></li>
+                        <li><a href="help.html">Giúp đỡ</a></li>
+                        <li><a href="login.html">Đăng xuất</a></li>
+                    </ul>
+                </nav>
             </div>
+        </header>
+
+        <div id="banner">
+
+        </div>
+        <div id="content" class="container">
+            <h1>Hướng Dẫn Sử Dụng Hệ Thống Nhận Diện Khuôn Mặt</h1>
+            <h2>1. Đăng Ký Khuôn Mặt:</h2>
+            <ul>
+                <li>- Mở ứng dụng và chọn mục Đăng Ký Khuôn Mặt.</li>
+                <li>- Đảm bảo khuôn mặt của bạn được chiếu sáng đủ và rõ ràng.</li>
+                <li>- Hệ thống sẽ yêu cầu bạn nhìn vào camera từ nhiều góc độ để tạo một bản sao 3D của khuôn mặt.</li>
+                <li>- Sau khi đăng ký xong, bạn sẽ nhận được thông báo xác nhận.</li>
+            </ul>
+            <h2>2. Mở Khóa:</h2>
+            <ul>
+                <li>- Để mở khóa thiết bị, chỉ cần nhìn vào camera. Hệ thống sẽ tự động so khớp khuôn mặt của bạn với dữ liệu đã đăng ký.</li>
+                <li>- Nếu nhận diện thành công, thiết bị sẽ mở khóa ngay lập tức.</li>
+                <li>- Nếu không nhận diện được, bạn có thể thử lại hoặc sử dụng phương thức mở khóa thay thế (ví dụ: mật khẩu hoặc mã PIN).</li>
+            </ul>
+            <h2>3. Cập Nhật Khuôn Mặt:</h2>
+            <ul>
+                <li>- Nếu khuôn mặt của bạn thay đổi đáng kể (ví dụ: thay đổi kiểu tóc, đeo kính, v.v.), bạn nên cập nhật lại dữ liệu khuôn mặt của mình.</li>
+                <li>- Để làm điều này, vào mục Cập Nhật Khuôn Mặt và làm theo hướng dẫn để chụp lại hình ảnh mới.</li>
+            </ul>
+            <h2>4. Xử Lý Lỗi Nhận Diện:</h2>
+            <ul>
+                <li>- Không nhận diện được khuôn mặt: Đảm bảo bạn đang ở trong môi trường sáng đủ, và khuôn mặt không bị che khuất.</li>
+                <li>- Nhận diện sai: Nếu hệ thống nhận diện sai, bạn có thể thử lại hoặc sử dụng phương thức mở khóa thay thế.</li>
+                <li>- Lỗi camera: Kiểm tra xem camera có bị che khuất hoặc không hoạt động không. Hãy đảm bảo phần cứng hoạt động bình thường.</li>
+            </ul>
+            <h2>5. Câu hỏi thường gặp (FAQ):</h2>
+            <ul>
+                <li><strong>- Tại sao hệ thống không nhận diện khuôn mặt tôi?</strong>
+                    <ul>
+                        <li>+ Hệ thống có thể gặp khó khăn trong điều kiện ánh sáng yếu hoặc khi khuôn mặt của bạn bị che khuất. Hãy chắc chắn rằng bạn đang ở nơi sáng và không có vật cản trước camera.</li>
+                    </ul>
+                </li>
+                <li><strong>- Làm thế nào để thay đổi khuôn mặt đã đăng ký?</strong>
+                    <ul>
+                        <li>+ Bạn có thể vào mục Cập Nhật Khuôn Mặt và làm theo hướng dẫn để cập nhật hình ảnh khuôn mặt của mình.</li>
+                    </ul>
+                </li>
+                <li><strong>- Có thể sử dụng phương thức mở khóa khác không?</strong>
+                    <ul>
+                        <li>+ Nếu hệ thống nhận diện khuôn mặt không hoạt động, bạn có thể sử dụng mật khẩu hoặc mã PIN để mở khóa thiết bị.</li>
+                    </ul>
+                </li>
+            </ul>
+            <h2>6. Liên Hệ Hỗ Trợ:</h2>
+            <li><em> Nếu bạn gặp phải bất kỳ vấn đề nào hoặc cần hỗ trợ thêm, đừng ngần ngại liên hệ với chúng tôi qua các kênh sau:</em></li>
+            <ul>
+                <li>- Email hỗ trợ: <a href="mailto:nhom5@gmail.com">nhom5@gmail.com</a></li>
+                <li>- Số điện thoại: <a href="tel:0935694839">0935694839</a></li>
+            </ul>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(window).scroll(function(){
+                if($(this).scrollTop()){
+                    $('header').addClass('sticky');
+                } else{
+                    $('header').removeClass('sticky');
+                }
+            });
+        });
+    </script>
 
 
 
