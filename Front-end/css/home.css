@@ -12,14 +12,18 @@ ul {
 }
 a{
     text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
 }
 .container{
    margin: 0px auto;
    max-width: 960px; 
+   padding: 0 15px; 
 }
 body{
     color: #fff;
     background: #000;
+    line-height: 1.6;
 
 }
 header{
@@ -30,12 +34,13 @@ header{
     border-bottom: 1px solid #f5f5f5;
     padding: 20px 0px;
     transition: all 0.5s ease-in-out;
+    z-index: 1000;
 }
 header.sticky{
     background: #fff;
     opacity: 0.9;
     padding: 15px 0px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
 }
 header.sticky #logo a{
     color: #000;
@@ -54,6 +59,8 @@ header.sticky #main-menu a{
     font-weight: bold;
     font-size: 1.5rem;
     letter-spacing: 2px;
+    display: block;
+    transition: color 0.3s ease;
 }
 ul#main-menu {
     display: flex;
@@ -65,16 +72,94 @@ ul#main-menu a{
     color: #fff;
     display: block;
     font-weight: bold;
+    transition: color 0.3s ease;
 }
+
+ul#main-menu a:hover {
+    color: #f5a623;
+}
+
 #banner{
-    background: url(../Img/banner.jpg);
+    background: url(../Img/banner.jpg) no-repeat center center/cover;
     min-height: 480px;
     width: 100%;
-    background-size: cover;
+    position: relative;
 }
-#content h1{
-    padding: 30px 0px;
+
+
+#content h1 {
+    padding: 30px 0;
+    font-size: 2rem;
+    text-align: center;
+    color: #f5a623;
 }
-#content p{
+
+#content h2 {
+    margin: 20px 0 10px;
+    font-size: 1.8rem;
+    color: #f5a623;
+}
+
+#content p {
     margin-bottom: 1.2rem;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+#content ul {
+    padding-left: 20px;
+    margin: 20px 0;
+}
+
+#content ul li {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+#content ul li i {
+    color: #f5a623;
+    margin-right: 10px;
+}
+
+#contact-form {
+    margin: 30px 0;
+    background: #222;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#contact-form label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #f5a623;
+}
+
+#contact-form input,
+#contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: #333;
+    color: #fff;
+    font-size: 1rem;
+}
+
+#contact-form button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #f5a623;
+    color: #000;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+#contact-form button:hover {
+    background: #e5941a;
 }
