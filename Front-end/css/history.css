@@ -1,28 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 ul {
     list-style: none;
 }
-a{
+a {
     text-decoration: none;
 }
-.container{
-   margin: 0px auto;
-   max-width: 960px; 
+.container {
+    margin: 0px auto;
+    max-width: 960px;
 }
-body{
+body {
     color: #fff;
     background: #000;
-
 }
-header{
+header {
     position: fixed;
     top: 0;
     left: 0;
@@ -31,24 +30,24 @@ header{
     padding: 20px 0px;
     transition: all 0.5s ease-in-out;
 }
-header.sticky{
+header.sticky {
     background: #fff;
     opacity: 0.9;
     padding: 15px 0px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
 }
-header.sticky #logo a{
+header.sticky #logo a {
     color: #000;
 }
-header.sticky #main-menu a{
-    color:#000;
+header.sticky #main-menu a {
+    color: #000;
 }
-.inner-header{
+.inner-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-#logo{
+#logo {
     color: #fff;
     text-transform: uppercase;
     font-weight: bold;
@@ -59,22 +58,53 @@ ul#main-menu {
     display: flex;
 }
 
-ul#main-menu a{
+ul#main-menu a {
     text-transform: uppercase;
     padding: 10px 20px;
     color: #fff;
     display: block;
     font-weight: bold;
 }
-#banner{
+#banner {
     background: url(../Img/banner.jpg);
     min-height: 480px;
     width: 100%;
     background-size: cover;
 }
-#content h1{
+#content h1 {
     padding: 30px 0px;
 }
-#content p{
+#content p {
     margin-bottom: 1.2rem;
+}
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: #111; /* Dark background to match the page theme */
+    color: #fff; /* White text */
+    border: 1px solid #333; /* Subtle border */
+    text-align: left;
+}
+
+table th,
+table td {
+    padding: 12px 15px; /* Add padding for better readability */
+    border: 1px solid #333; /* Subtle cell border */
+}
+
+table th {
+    background: #222; /* Slightly lighter header background */
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+table tr:nth-child(even) {
+    background: #1b1b1b; /* Alternate row coloring for better readability */
+}
+
+table tr:hover {
+    background: #333; /* Highlight row on hover */
+    transition: background 0.3s ease-in-out;
 }

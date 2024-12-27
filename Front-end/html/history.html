@@ -1,56 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Access Logs</title>
+        <link rel="stylesheet" href="../css/history.css" />
+        <link
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
+        />
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History</title>
-    <link rel="stylesheet" href="../css/history.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-</head>
+    <body>
+        <div id="wrapper">
+            <header>
+                <div class="inner-header container">
+                    <a href="" id="logo">TNPT</a>
+                    <nav>
+                        <ul id="main-menu">
+                            <li><a href="home.html">Trang chủ</a></li>
+                            <li><a href="history.html">Lịch sử</a></li>
+                            <li>
+                                <a href="usermanagement.html"
+                                    >Quản lí người dùng</a
+                                >
+                            </li>
+                            <li><a href="help.html">Giúp đỡ</a></li>
+                            <li><a href="login.html">Đăng xuất</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
 
-<body>
+            <div id="banner"></div>
 
-    <div id="wrapper">
-        <header>
-            <div class="inner-header container">
-                <a href="" id="logo">TNPT</a>
-                <nav>
-                    <ul id="main-menu">
-                        <li><a href="home.html">Trang chủ</a></li>
-                        <li><a href="history.html">Lịch sử</a></li>
-                        <li><a href="usermanagement.html">Quản lí người dùng</a></li>
-                        <li><a href="help.html">Giúp đỡ</a></li>
-                        <li><a href="login.html">Đăng xuất</a></li>
-                    </ul>
-                </nav>
+            <div id="content" class="container">
+                <h1>Access Logs</h1>
+                <table border="1" cellpadding="10" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Log ID</th>
+                            <th>User Name</th>
+                            <th>Access Time</th>
+                            <th>Access Granted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample Data -->
+                        <tr>
+                            <td>1</td>
+                            <td>John Doe</td>
+                            <td>2024-12-27 10:30:00</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jane Smith</td>
+                            <td>2024-12-27 10:45:00</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jane Smith</td>
+                            <td>2024-12-27 10:45:00</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jane Smith</td>
+                            <td>2024-12-27 10:45:00</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jane Smith</td>
+                            <td>2024-12-27 10:45:00</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jane Smith</td>
+                            <td>2024-12-27 10:45:00</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jane Smith</td>
+                            <td>2024-12-27 10:45:00</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jane Smith</td>
+                            <td>2024-12-27 10:45:00</td>
+                            <td>No</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </header>
-
-        <div id="banner">
-
         </div>
-        <div id="content" class="container">
-            <h1>Trang chủ</h1>
-            <p></p>
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script>
-        $(document).ready(function(){
-            $(window).scroll(function(){
-                if($(this).scrollTop()){
-                    $('header').addClass('sticky');
-                } else{
-                    $('header').removeClass('sticky');
-                }
+
+        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(window).scroll(function () {
+                    if ($(this).scrollTop()) {
+                        $("header").addClass("sticky");
+                    } else {
+                        $("header").removeClass("sticky");
+                    }
+                });
             });
-        });
-    </script>
-
-
-
-</body>
-
+        </script>
+    </body>
 </html>
