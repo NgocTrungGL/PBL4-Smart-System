@@ -3,55 +3,104 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management</title>
-    <link rel="stylesheet" href="/static/css/usermanagement.css">
+    <title>Quản lí Người Dùng</title>
+    <link rel="stylesheet" href="../static/css/usermanagement.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
-    <header class="header">
-        <nav class="navbar">
-            <a href="#">Home</a>
-            <a href="#">History</a>
-            <a href="#">User Management</a>
-            <a href="#">Help</a>
-            <a href="#">Logout</a>
-        </nav>
-    </header>
 
-    <div class="container">
-        <h1>User Management</h1>
-        <table border="1" class="user-table">
-            <thead>
-                <tr>
-                    <th>User ID</th>
-                    <th>User Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Role</th>
-                    <th>Created At</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if users %}
-                    {% for user in users %}
-                        <tr>
-                            <td>{{ user.user_id }}</td>
-                            <td>{{ user.user_name }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.sdt }}</td>
-                            <td>{{ user.role }}</td>
-                            <td>{{ user.created_at }}</td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
+    <div id="wrapper">
+        <header>
+            <div class="inner-header container">
+                <a href="" id="logo">TNPT</a>
+                <nav>
+                    <ul id="main-menu">
+                        <li><a href="./home">Trang chủ</a></li>
+                        <li><a href="./history">Lịch sử</a></li>
+                        <li><a href="./usermanagement">Quản lí người dùng</a></li>
+                        <li><a href="./help">Giúp đỡ</a></li>
+                        <li><a href="./login">Đăng xuất</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <div id="banner">
+
+        </div>
+
+        <!-- Nội dung Quản lý Người Dùng -->
+        <div id="content" class="container">
+            <h1>Quản lý Người Dùng</h1>
+
+            <!-- Các nút thao tác -->
+            <div class="user-actions">
+                <button class="btn-add-user">Thêm Người Dùng</button>
+                <button class="btn-edit-user">Sửa Người Dùng</button>
+                <button class="btn-delete-user">Xóa Người Dùng</button>
+            </div>
+
+            <!-- Danh sách Người Dùng -->
+            <h2>Danh sách người dùng</h2>
+            <table>
+                <thead>
                     <tr>
-                        <td colspan="6">No users found</td>
+                        <th>ID</th>
+                        <th>Tên</th>
+                        <th>Email</th>
+                        <th>Vai trò</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
                     </tr>
-                {% endif %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Nguyễn Văn A</td>
+                        <td>a@example.com</td>
+                        <td>Admin</td>
+                        <td>Đang hoạt động</td>
+                        <td>
+                            <button>Sửa</button>
+                            <button>Xóa</button>
+                            <button>Khóa</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Trần Thị B</td>
+                        <td>b@example.com</td>
+                        <td>User</td>
+                        <td>Đang hoạt động</td>
+                        <td>
+                            <button>Sửa</button>
+                            <button>Xóa</button>
+                            <button>Khóa</button>
+                        </td>
+                    </tr>
+                    <!-- Thêm các dòng người dùng khác nếu cần -->
+                </tbody>
+            </table>
+        </div>
+
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(window).scroll(function(){
+                if($(this).scrollTop()){
+                    $('header').addClass('sticky');
+                } else{
+                    $('header').removeClass('sticky');
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

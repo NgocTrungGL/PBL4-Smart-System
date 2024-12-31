@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Access Logs</title>
+        <link rel="stylesheet" href="../static/css/history.css" />
+        <link
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
+        />
+    </head>
+
+    <body>
+        <div id="wrapper">
+            <header>
+                <div class="inner-header container">
+                    <a href="" id="logo">TNPT</a>
+                    <nav>
+                        <ul id="main-menu">
+                            <li><a href="home">Trang chủ</a></li>
+                            <li><a href="history">Lịch sử</a></li>
+                            <li>
+                                <a href="usermanagement"
+                                    >Quản lí người dùng</a
+                                >
+                            </li>
+                            <li><a href="help">Giúp đỡ</a></li>
+                            <li><a href="login">Đăng xuất</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+
+            <div id="banner"></div>
+
+            <div id="content" class="container">
+                <h1>Access Logs</h1>
+                <table border="1" cellpadding="10" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Access number</th>
+                            <th>User Name</th>
+                            <th>Access Time</th>
+                            <th>Picture</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in history %}
+                        <tr>
+                            <td>{{ record.LanDangNhap }}</td>
+                            <td>{{ record.Ten }}</td>
+                            <td>{{ record.ThoiDiemDangNhap }}</td>
+                            <td>
+                                <button onclick="showImage('{{ record.LanDangNhap }}')">Hiện ảnh</button>
+                                <div id="image-{{ record.LanDangNhap }}" style="display: none;">
+                                    {% if record.Anh %}
+                                    <img src="data:image/jpeg;base64,{{ record.Anh }}" alt="User Image" width="100" height="100">
+                                    {% else %}
+                                    <p>Không có ảnh</p>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(window).scroll(function () {
+                    if ($(this).scrollTop()) {
+                        $("header").addClass("sticky");
+                    } else {
+                        $("header").removeClass("sticky");
+                    }
+                });
+            });
+            function showImage(accessNumber) {
+                // Lấy phần tử ảnh theo LanDangNhap
+                const imageDiv = document.getElementById(`image-${accessNumber}`);
+                const imgTag = imageDiv.querySelector("img");
+                
+                if (imgTag) {
+                    const imageUrl = imgTag.src; // Lấy URL ảnh từ thẻ <img>
+                    
+                    // Tạo cửa sổ popup để hiển thị ảnh
+                    const popupWindow = window.open("", "_blank", "width=400,height=400");
+                    popupWindow.document.write(`
+                        <html>
+                            <head>
+                                <title>Ảnh</title>
+                                <style>
+                                    body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100%; }
+                                    img { max-width: 100%; max-height: 100%; }
+                                </style>
+                            </head>
+                            <body>
+                                <img src="${imageUrl}" alt="User Image">
+                            </body>
+                        </html>
+                    `);
+                    popupWindow.document.close();
+                } else {
+                    alert("Không có ảnh để hiển thị.");
+                }
+            }
+            
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,61 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.logo {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 50px;
+    z-index: 1001;
+}
+
+.header {
+    width: 100%;
+    background-color: red;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    z-index: 1000;
+    border-radius: 30px;
+}
+.center-image {
+    margin-top: 100px; /* Đảm bảo hình ảnh không bị che bởi header */
+    display: block;
+    max-width: 300px; /* Kích thước tối đa của hình ảnh */
+}
+.return-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(
+        to bottom,
+        #ff9a9e,
+        #fad0c4
+    ); /* Màu gradient hồng */
+    color: black;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px; /* Bo tròn nút */
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng chữ */
+}
+.return-button:hover {
+    background: linear-gradient(
+        to bottom,
+        #ff7e7e,
+        #fab1a0
+    ); /* Màu khi hover */
+}
