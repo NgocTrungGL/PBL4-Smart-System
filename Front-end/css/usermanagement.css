@@ -85,10 +85,9 @@ ul#main-menu a:hover {
 }
 
 #banner {
-    background: url(../Img/banner.jpg);
+    background: url(../Img/banner.jpg) no-repeat center center/cover;
     min-height: 480px;
     width: 100%;
-    background-size: cover;
     position: relative;
 }
 

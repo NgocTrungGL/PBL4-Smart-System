@@ -29,6 +29,7 @@ header {
     border-bottom: 1px solid #f5f5f5;
     padding: 20px 0px;
     transition: all 0.5s ease-in-out;
+    z-index: 9999;
 }
 header.sticky {
     background: #fff;
@@ -36,7 +37,7 @@ header.sticky {
     padding: 15px 0px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
 }
-header.sticky #logo a {
+header.sticky #logo  {
     color: #000;
 }
 header.sticky #main-menu a {
@@ -66,11 +67,22 @@ ul#main-menu a {
     font-weight: bold;
 }
 #banner {
-    background: url(../Img/banner.jpg);
+    background: url(../Img/banner.jpg) no-repeat center center/cover;
     min-height: 480px;
     width: 100%;
-    background-size: cover;
+    position: relative;
 }
+
+#banner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
 #content h1 {
     padding: 30px 0px;
 }
