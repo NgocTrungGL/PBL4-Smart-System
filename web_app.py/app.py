@@ -81,8 +81,6 @@ def user_management():
 
     return render_template('usermanagement.html', users=users)
 
-
-################TEST#####################
 def save_image(folder_name, image_base64, count):
     # Tạo đường dẫn thư mục
     dataset_path = r"D:\Code\PBL4-Smart-System\dataset"
