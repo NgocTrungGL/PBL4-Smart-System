@@ -14,7 +14,7 @@
     </form>
 
     <div>
-        <video id="camera" autoplay></video>
+        <video id="camera" autoplay style="display: none;"></video>
         <canvas id="snapshot" style="display: none;"></canvas>
     </div>
 
@@ -26,13 +26,16 @@
         const snapshot = document.getElementById("snapshot");
         const statusText = document.getElementById("status");
 
-        let intervalId;
+        let stream = null;
+        let intervalId = null;
+        let count = 0; // Bộ đếm ảnh
 
         // Bật camera bằng WebRTC
         async function startCamera() {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 camera.srcObject = stream;
+                camera.style.display = "block"; // Hiển thị camera sau khi khởi động
             } catch (error) {
                 statusText.innerText = "Không thể truy cập camera. Vui lòng kiểm tra.";
             }
@@ -43,7 +46,14 @@
             const folderName = document.getElementById("folder_name").value.trim();
             if (!folderName) {
                 statusText.innerText = "Vui lòng nhập tên thư mục!";
-                clearInterval(intervalId);  // Stop capturing if folder name is not provided
+                clearInterval(intervalId); // Dừng chụp nếu không nhập tên thư mục
+                return;
+            }
+
+            // Kiểm tra số lượng ảnh
+            if (count >= 10) {
+                clearInterval(intervalId); // Dừng chụp ảnh
+                statusText.innerText = "Đã chụp đủ 10 ảnh.";
                 return;
             }
 
@@ -65,20 +75,36 @@
                 });
 
                 const result = await response.text();
-                statusText.innerText = result;
+                statusText.innerText = `Ảnh ${count + 1}: ${result}`;
+                count++; // Tăng bộ đếm sau khi chụp
             } catch (error) {
                 statusText.innerText = "Lỗi khi gửi ảnh. Vui lòng thử lại.";
             }
         }
 
-        // Bắt đầu chụp ảnh mỗi 0.4 giây
+        // Bắt đầu camera và chụp ảnh
         startButton.addEventListener("click", () => {
+            const folderName = document.getElementById("folder_name").value.trim();
+            if (!folderName) {
+                statusText.innerText = "Vui lòng nhập tên thư mục!";
+                return;
+            }
+
+            if (!stream) {
+                startCamera(); // Khởi động camera nếu chưa bật
+            }
+
+            count = 0; // Đặt lại bộ đếm
             if (intervalId) clearInterval(intervalId);
-            intervalId = setInterval(captureAndSend, 400);
+            intervalId = setInterval(captureAndSend, 400); // Bắt đầu chụp ảnh mỗi 0.4 giây
         });
 
-        // Khởi động camera
-        startCamera();
+        // Ngừng camera khi rời khỏi trang
+        window.addEventListener("beforeunload", () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        });
     </script>
 </body>
 </html>

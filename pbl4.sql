@@ -31,3 +31,9 @@ CREATE TABLE LichSuDangNhap (
     ThoiDiemDangNhap TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Thời điểm đăng nhập
     Anh MEDIUMBLOB NULL                                  -- Cột ảnh (Lưu trữ hình ảnh ở dạng nhị phân)
 );
+
+CREATE TABLE user (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    role VARCHAR(100) NOT NULL
+);
