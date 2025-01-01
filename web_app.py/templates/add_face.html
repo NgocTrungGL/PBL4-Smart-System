@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Khuôn Mặt</title>
+</head>
+<body>
+    <h1>Thêm Khuôn Mặt Mới</h1>
+    <form id="folderForm">
+        <label for="folder_name">Nhập tên thư mục để lưu ảnh:</label>
+        <input type="text" id="folder_name" name="folder_name" required>
+        <button type="button" id="startButton">Bắt đầu</button>
+    </form>
+
+    <div>
+        <video id="camera" autoplay></video>
+        <canvas id="snapshot" style="display: none;"></canvas>
+    </div>
+
+    <p id="status"></p>
+
+    <script>
+        const startButton = document.getElementById("startButton");
+        const camera = document.getElementById("camera");
+        const snapshot = document.getElementById("snapshot");
+        const statusText = document.getElementById("status");
+
+        let intervalId;
+
+        // Bật camera bằng WebRTC
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                camera.srcObject = stream;
+            } catch (error) {
+                statusText.innerText = "Không thể truy cập camera. Vui lòng kiểm tra.";
+            }
+        }
+
+        // Chụp ảnh từ camera và gửi đến server
+        async function captureAndSend() {
+            const folderName = document.getElementById("folder_name").value.trim();
+            if (!folderName) {
+                statusText.innerText = "Vui lòng nhập tên thư mục!";
+                clearInterval(intervalId);  // Stop capturing if folder name is not provided
+                return;
+            }
+
+            // Chụp ảnh
+            const ctx = snapshot.getContext("2d");
+            snapshot.width = camera.videoWidth;
+            snapshot.height = camera.videoHeight;
+            ctx.drawImage(camera, 0, 0, snapshot.width, snapshot.height);
+
+            // Chuyển ảnh sang base64
+            const imageBase64 = snapshot.toDataURL("image/jpeg");
+
+            // Gửi ảnh đến server
+            try {
+                const response = await fetch("/save_snapshot", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ folder_name: folderName, image: imageBase64 }),
+                });
+
+                const result = await response.text();
+                statusText.innerText = result;
+            } catch (error) {
+                statusText.innerText = "Lỗi khi gửi ảnh. Vui lòng thử lại.";
+            }
+        }
+
+        // Bắt đầu chụp ảnh mỗi 0.4 giây
+        startButton.addEventListener("click", () => {
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(captureAndSend, 400);
+        });
+
+        // Khởi động camera
+        startCamera();
+    </script>
+</body>
+</html>
