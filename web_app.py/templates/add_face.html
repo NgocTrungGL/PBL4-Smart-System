@@ -1,24 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm Khuôn Mặt</title>
+    <title>Thêm khuôn mặt</title>
+    <link rel="stylesheet" href="../static/css/addface.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
+
 <body>
-    <h1>Thêm Khuôn Mặt Mới</h1>
-    <form id="folderForm">
-        <label for="folder_name">Nhập tên thư mục để lưu ảnh:</label>
-        <input type="text" id="folder_name" name="folder_name" required>
-        <button type="button" id="startButton">Bắt đầu</button>
-    </form>
+    <div id="wrapper">
+        <header>
+            <div class="inner-header container">
+                <a href="#" id="logo">TNPT</a>
+                <nav>
+                    <ul id="main-menu">
+                        <li><a href="home">Trang chủ</a></li>
+                        <li><a href="history">Lịch sử</a></li>
+                        <li><a href="usermanagement">Quản lí người dùng</a></li>
+                        <li><a href="help">Giúp đỡ</a></li>
+                        <li><a href="login">Đăng xuất</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
-    <div>
-        <video id="camera" autoplay></video>
-        <canvas id="snapshot" style="display: none;"></canvas>
+        <div id="banner"></div>
+
+        <form action="#" method="POST" id="contact-form">
+
+            <h1>Thêm người dùng mới!</h1>
+
+            <label for="name">Tên:</label>
+            <input type="text" id="name" name="name" placeholder="Nhập tên của bạn" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Nhập email của bạn" required>
+
+            <label for="vaitro">Vai trò:</label>
+            <input type="text" id="vaitro" name="vaitro" placeholder="Nhập vai trò của bạn" required>
+
+            <label for="folder_name">Nhập tên thư mục để lưu ảnh:</label>
+            <input type="text" id="folder_name" name="folder_name" required>
+            <button type="button" id="startButton">Bắt đầu</button>
+
+            <div>
+                <video id="camera" autoplay></video>
+                <canvas id="snapshot" style="display: none;"></canvas>
+            </div>
+
+            <button type="savebutton" id="saveButton">Lưu</button>
+        </form>
+
+        <p id="status"></p>
     </div>
-
-    <p id="status"></p>
 
     <script>
         const startButton = document.getElementById("startButton");
@@ -28,7 +65,7 @@
 
         let intervalId;
 
-        // Bật camera bằng WebRTC
+        // Bật camera
         async function startCamera() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -38,25 +75,22 @@
             }
         }
 
-        // Chụp ảnh từ camera và gửi đến server
+        // Chụp ảnh
         async function captureAndSend() {
             const folderName = document.getElementById("folder_name").value.trim();
             if (!folderName) {
                 statusText.innerText = "Vui lòng nhập tên thư mục!";
-                clearInterval(intervalId);  // Stop capturing if folder name is not provided
+                clearInterval(intervalId);
                 return;
             }
 
-            // Chụp ảnh
             const ctx = snapshot.getContext("2d");
             snapshot.width = camera.videoWidth;
             snapshot.height = camera.videoHeight;
             ctx.drawImage(camera, 0, 0, snapshot.width, snapshot.height);
 
-            // Chuyển ảnh sang base64
             const imageBase64 = snapshot.toDataURL("image/jpeg");
 
-            // Gửi ảnh đến server
             try {
                 const response = await fetch("/save_snapshot", {
                     method: "POST",
@@ -71,14 +105,13 @@
             }
         }
 
-        // Bắt đầu chụp ảnh mỗi 0.4 giây
         startButton.addEventListener("click", () => {
             if (intervalId) clearInterval(intervalId);
             intervalId = setInterval(captureAndSend, 400);
         });
 
-        // Khởi động camera
         startCamera();
     </script>
 </body>
+
 </html>
