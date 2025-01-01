@@ -144,7 +144,7 @@ ul#main-menu a:hover {
     font-size: 1rem;
 }
 
-#contact-form button1 {
+#contact-form button {
     display: inline-block;
     padding: 10px 20px;
     background: #f5a623;
@@ -157,7 +157,7 @@ ul#main-menu a:hover {
     transition: background 0.3s ease-in-out;
 }
 
-#contact-form button1:hover {
+#contact-form button:hover {
     background: #e5941a;
 }
 

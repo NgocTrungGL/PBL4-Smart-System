@@ -38,9 +38,8 @@
 
             <!-- Các nút thao tác -->
             <div class="user-actions">
-                <button class="btn-add-user">Thêm Người Dùng</button>
-                <button class="btn-edit-user">Sửa Người Dùng</button>
-                <button class="btn-delete-user">Xóa Người Dùng</button>
+                <button class="btn-add-user" onclick="window.location.href='/add_face'">Thêm Người Dùng</button>
+                
             </div>
 
             <!-- Danh sách Người Dùng -->
@@ -50,38 +49,24 @@
                     <tr>
                         <th>ID</th>
                         <th>Tên</th>
-                        <th>Email</th>
                         <th>Vai trò</th>
-                        <th>Trạng thái</th>
                         <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for user in users %}
                     <tr>
-                        <td>1</td>
-                        <td>Nguyễn Văn A</td>
-                        <td>a@example.com</td>
-                        <td>Admin</td>
-                        <td>Đang hoạt động</td>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.role }}</td>
                         <td>
-                            <button>Sửa</button>
-                            <button>Xóa</button>
-                            <button>Khóa</button>
+                            <form action="/delete_user" method="POST" style="display:inline;">
+                                <input type="hidden" name="user_id" value="{{ user.id }}">
+                                <button type="submit">Xóa</button>
+                            </form>
                         </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Trần Thị B</td>
-                        <td>b@example.com</td>
-                        <td>User</td>
-                        <td>Đang hoạt động</td>
-                        <td>
-                            <button>Sửa</button>
-                            <button>Xóa</button>
-                            <button>Khóa</button>
-                        </td>
-                    </tr>
-                    <!-- Thêm các dòng người dùng khác nếu cần -->
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
