@@ -5,6 +5,17 @@ from flask import Flask, flash, render_template, request, redirect, url_for
 import mysql.connector
 import numpy as np
 
+from flask import Flask, render_template
+import os
+import numpy as np
+import cv2 as cv
+import pickle
+from keras_facenet import FaceNet
+from mtcnn.mtcnn import MTCNN
+from sklearn.svm import SVC
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
@@ -17,6 +28,41 @@ def get_database_connection():
         database="smartlocksystem"  # Thay bằng tên database
     )
     return connection
+
+# Helper function to extract faces and get embeddings
+def load_classes(directory, detector):
+    X, Y = [], []
+    for sub_dir in os.listdir(directory):
+        path = os.path.join(directory, sub_dir)
+        FACES = load_faces(path, detector)
+        labels = [sub_dir] * len(FACES)
+        X.extend(FACES)
+        Y.extend(labels)
+    return np.asarray(X), np.asarray(Y)
+
+def load_faces(dir, detector):
+    FACES = []
+    for im_name in os.listdir(dir):
+        try:
+            path = os.path.join(dir, im_name)
+            face = extract_face(path, detector)
+            FACES.append(face)
+        except Exception as e:
+            pass
+    return FACES
+
+def extract_face(filename, detector):
+    img = cv.imread(filename)
+    img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+    x, y, w, h = detector.detect_faces(img)[0]['box']
+    face = img[y:y+h, x:x+w]
+    face_arr = cv.resize(face, (160, 160))
+    return face_arr
+
+def get_embedding(face_img, embedder):
+    face_img = face_img.astype('float32')
+    face_img = np.expand_dims(face_img, axis=0)
+    return embedder.embeddings(face_img)[0]
 
 # Route trang chủ
 @app.route('/')
@@ -103,6 +149,55 @@ def save_image(folder_name, image_base64, count):
         return f"Ảnh {count} đã được lưu tại {img_path}"
     else:
         return "Không thể lưu ảnh."
+    
+# Luu thay doi
+@app.route('/save_changes')
+def save_changes():
+    try:
+        # Initialize MTCNN detector and FaceNet embedder
+        detector = MTCNN()
+        embedder = FaceNet()
+
+        # Define the dataset directory (ensure this is the correct path on your system)
+        dataset_dir = r"D:\Code\PBL4-Smart-System\dataset"
+        if not os.path.exists(dataset_dir):
+            raise Exception(f"Dataset directory does not exist: {dataset_dir}")
+
+        # Load images from directory (ensure dataset directory path is correct)
+        print("Loading classes from dataset...")
+        X, Y = load_classes(dataset_dir, detector)
+        print(f"Loaded {len(X)} images from {len(Y)} classes.")
+
+        # Get embeddings for the faces
+        print("Generating face embeddings...")
+        EMBEDDED_X = [get_embedding(face, embedder) for face in X]
+        EMBEDDED_X = np.asarray(EMBEDDED_X)
+
+        # Encode labels
+        print("Encoding labels...")
+        encoder = LabelEncoder()
+        encoder.fit(Y)
+        Y = encoder.transform(Y)
+
+        # Train SVM model
+        print("Training SVM model...")
+        X_train, X_test, Y_train, Y_test = train_test_split(EMBEDDED_X, Y, shuffle=True, random_state=17)
+        model = SVC(kernel='linear', probability=True)
+        model.fit(X_train, Y_train)
+
+        # Save the trained model
+        print("Saving trained model...")
+        with open('svm_model_160x160.pkl', 'wb') as f:
+            pickle.dump(model, f)
+
+        # Return success message
+        return render_template('home.html', message="Changes saved and model trained successfully!")
+
+    except Exception as e:
+        # If any error occurs, display the error message
+        return render_template('home.html', message=f"An error occurred: {e}")
+
+
 
 @app.route('/delete_user', methods=['POST'])
 def delete_user():

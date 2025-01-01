@@ -26,49 +26,26 @@
                 </nav>
             </div>
         </header>
-
         <div id="banner"></div>
+        <h1 style="text-align: center; font-size: 2rem; color: #f5a623; margin-bottom: 20px;">Thêm Khuôn Mặt Mới</h1>
 
-        <form action="#" method="POST" id="contact-form">
+        
 
-            <h1>Thêm người dùng mới!</h1>
+        <div>
+            <video id="camera" autoplay style="display: none;"></video>
+            <canvas id="snapshot" style="display: none;"></canvas>
+        </div>
 
-            <label for="name">Tên:</label>
-            <input type="text" id="name" name="name" placeholder="Nhập tên của bạn" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Nhập email của bạn" required>
-
-            <label for="vaitro">Vai trò:</label>
-            <input type="text" id="vaitro" name="vaitro" placeholder="Nhập vai trò của bạn" required>
-
-            <label for="folder_name">Nhập tên thư mục để lưu ảnh:</label>
+        <form id="folderForm">
+            <label style="color : orange" for="folder_name">Nhập tên của bạn:</label>
             <input type="text" id="folder_name" name="folder_name" required>
             <button type="button" id="startButton">Bắt đầu</button>
-
-            <div>
-                <video id="camera" autoplay></video>
-                <canvas id="snapshot" style="display: none;"></canvas>
-            </div>
-
-            <button type="savebutton" id="saveButton">Lưu</button>
+            <button type="button" onclick="window.location.href='/save_changes'">Thêm mặt vào hệ thống</button>
         </form>
 
         <p id="status"></p>
-
-    <h1>Thêm Khuôn Mặt Mới</h1>
-    <form id="folderForm">
-        <label for="folder_name">Nhập tên thư mục để lưu ảnh:</label>
-        <input type="text" id="folder_name" name="folder_name" required>
-        <button type="button" id="startButton">Bắt đầu</button>
-        <button type="button">Thêm mặt vào hệ thống</button>
-    </form>
-
-    <div>
-        <video id="camera" autoplay style="display: none;"></video>
-        <canvas id="snapshot" style="display: none;"></canvas>
-
     </div>
+    
 
     <script>
         const startButton = document.getElementById("startButton");
@@ -80,7 +57,7 @@
         let intervalId = null;
         let count = 0; // Bộ đếm ảnh
 
-        // Bật camera
+        // Bật camera bằng WebRTC
         async function startCamera() {
             try {
                 stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -91,12 +68,11 @@
             }
         }
 
-        // Chụp ảnh
+        // Chụp ảnh từ camera và gửi đến server
         async function captureAndSend() {
             const folderName = document.getElementById("folder_name").value.trim();
             if (!folderName) {
                 statusText.innerText = "Vui lòng nhập tên thư mục!";
-
                 clearInterval(intervalId); // Dừng chụp nếu không nhập tên thư mục
                 return;
             }
@@ -108,13 +84,16 @@
                 return;
             }
 
+            // Chụp ảnh
             const ctx = snapshot.getContext("2d");
             snapshot.width = camera.videoWidth;
             snapshot.height = camera.videoHeight;
             ctx.drawImage(camera, 0, 0, snapshot.width, snapshot.height);
 
+            // Chuyển ảnh sang base64
             const imageBase64 = snapshot.toDataURL("image/jpeg");
 
+            // Gửi ảnh đến server
             try {
                 const response = await fetch("/save_snapshot", {
                     method: "POST",
@@ -129,7 +108,6 @@
                 statusText.innerText = "Lỗi khi gửi ảnh. Vui lòng thử lại.";
             }
         }
-
 
         // Bắt đầu camera và chụp ảnh
         startButton.addEventListener("click", () => {
@@ -148,7 +126,6 @@
             intervalId = setInterval(captureAndSend, 400); // Bắt đầu chụp ảnh mỗi 0.4 giây
         });
 
-
         // Ngừng camera khi rời khỏi trang
         window.addEventListener("beforeunload", () => {
             if (stream) {
@@ -157,5 +134,4 @@
         });
     </script>
 </body>
-
 </html>

@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-
+/* Global Styles */
 * {
     margin: 0;
     padding: 0;
@@ -10,21 +9,22 @@
 ul {
     list-style: none;
 }
-a{
+a {
     text-decoration: none;
 }
-.container{
-   margin: 0px auto;
-   max-width: 960px; 
+.container {
+    margin: 0px auto;
+    max-width: 960px;
 }
-body{
+body {
     color: #fff;
     background: #000;
     line-height: 1.6;
     font-size: 16px;
-
 }
-header{
+
+/* Header Styles */
+header {
     position: fixed;
     top: 0;
     left: 0;
@@ -33,8 +33,9 @@ header{
     padding: 20px 0px;
     transition: all 0.5s ease-in-out;
     z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.7); /* Transparent background */
 }
-header.sticky{
+header.sticky {
     background: #fff;
     opacity: 0.95;
     padding: 15px 0px;
@@ -43,15 +44,15 @@ header.sticky{
 header.sticky #logo {
     color: #000;
 }
-header.sticky #main-menu a{
-    color:#000;
+header.sticky #main-menu a {
+    color: #000;
 }
-.inner-header{
+.inner-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-#logo{
+#logo {
     color: #fff;
     text-transform: uppercase;
     font-weight: bold;
@@ -63,8 +64,7 @@ header.sticky #main-menu a{
 ul#main-menu {
     display: flex;
 }
-
-ul#main-menu a{
+ul#main-menu a {
     text-transform: uppercase;
     padding: 10px 20px;
     color: #fff;
@@ -72,124 +72,120 @@ ul#main-menu a{
     font-weight: bold;
     transition: color 0.3s ease;
 }
-
 ul#main-menu a:hover {
     color: #f5a623;
 }
 
-#banner{
+/* Banner Styles */
+#banner {
     background: url(../Img/banner.jpg) no-repeat center center/cover;
     min-height: 480px;
     width: 100%;
     position: relative;
 }
 
-
-#content h1 {
-    padding: 30px 0;
-    font-size: 2rem;
-    text-align: center;
-    color: #f5a623;
-}
-
-#content h2 {
-    margin: 20px 0 10px;
-    font-size: 1.8rem;
-    color: #f5a623;
-}
-
-#content p {
-    margin-bottom: 1.2rem;
-    font-size: 1rem;
-    line-height: 1.8;
-}
-
-#content ul {
-    padding-left: 20px;
-    margin: 20px 0;
-}
-
-#content ul li {
-    margin: 10px 0;
-    font-size: 1rem;
-}
-
-#content ul li i {
-    color: #f5a623;
-    margin-right: 10px;
-}
-
-#contact-form {
+/* Form Styles */
+form {
     margin: 30px 0;
-    background: #222;
     padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
     border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
-
-#contact-form label {
-    display: block;
-    font-size: 1rem;
-    margin-bottom: 5px;
-    color: #f5a623;
-}
-
-#contact-form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #444;
+#folder_name {
+    padding: 12px;
+    border: 2px solid #4CAF50;
     border-radius: 5px;
-    background: #333;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #333;
     color: #fff;
-    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
-
-#contact-form button {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #f5a623;
+#folder_name:focus {
+    border-color: #45a049;
+    box-shadow: 0 0 8px rgba(72, 161, 72, 0.5);
+}
+#folderForm button {
+    padding: 12px 20px;
+    background-color: #f5a623;
     color: #000;
     font-weight: bold;
-    text-transform: uppercase;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
+    width: 100%;
+    margin-top: 20px;
+}
+#folderForm button:hover {
+    background-color: #e5941a;
 }
 
-#contact-form button:hover {
-    background: #e5941a;
-}
-
-
-.center-image {
-    margin-top: 100px; /* Đảm bảo hình ảnh không bị che bởi header */
+/* Video Styles */
+#camera, #snapshot {
     display: block;
-    max-width: 300px; /* Kích thước tối đa của hình ảnh */
+    margin: 20px auto;
+    width: 100%;
+    max-width: 600px;
 }
+
+/* Center Image Style */
+.center-image {
+    margin-top: 100px; /* Ensure image is not hidden by the header */
+    display: block;
+    max-width: 300px;
+}
+
+/* Return Button */
 .return-button {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: linear-gradient(
-        to bottom,
-        #ff9a9e,
-        #fad0c4
-    ); /* Màu gradient hồng */
+    background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
     color: black;
     border: none;
-    padding: 10px 25px;
-    border-radius: 20px; /* Bo tròn nút */
+    padding: 12px 25px;
+    border-radius: 25px;
     font-size: 16px;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng chữ */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 .return-button:hover {
-    background: linear-gradient(
-        to bottom,
-        #ff7e7e,
-        #fab1a0
-    ); /* Màu khi hover */
+    background: linear-gradient(to bottom, #ff7e7e, #fab1a0);
+}
+
+/* Add this to your existing CSS */
+form {
+    position: relative;
+    margin: 30px 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+#camera {
+    display: block;
+    margin-bottom: 20px; /* Add some space between video and buttons */
+    width: 100%; /* Make sure the video takes up the full width of the container */
+    max-width: 640px; /* Limit the max width */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Optional: for rounded corners */
+}
+
+#folderForm button {
+    padding: 12px 20px;
+    background-color: #f5a623;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    width: 100%;
+    margin-top: 20px;
 }

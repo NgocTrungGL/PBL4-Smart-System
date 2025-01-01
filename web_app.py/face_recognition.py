@@ -137,7 +137,7 @@ Y = faces_embeddings['arr_1']
 encoder = LabelEncoder()
 encoder.fit(Y)
 haarcascade = cv.CascadeClassifier("haarcascade_frontalface_default.xml")
-model = pickle.load(open("web_app.py\svm_model_160x160.pkl.pkl", 'rb'))
+model = pickle.load(open("svm_model_160x160.pkl", 'rb'))
 
 # Initialize camera
 cap = cv.VideoCapture(0)
