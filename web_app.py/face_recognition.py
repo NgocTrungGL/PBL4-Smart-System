@@ -205,7 +205,7 @@ try:
             if current_name == final_name and final_name != "unknown":
                 if time.time() - start_time >= 3:
                     print(f"Đã nhận diện: {final_name}")
-                    # them_lich_su_dang_nhap(final_name, frame)
+                    them_lich_su_dang_nhap(final_name, frame)
                     time.sleep(5)
                     start_time = time.time()
             else:
@@ -215,7 +215,7 @@ try:
         # Handle unknown face
         if not recognized and current_name == "unknown" and time.time() - start_time >= 5:
             print("Không nhận diện được khuôn mặt. Đang lưu thông tin...")
-            # them_lich_su_dang_nhap("Unknown", frame)
+            them_lich_su_dang_nhap("Unknown", frame)
             time.sleep(5)
             start_time = time.time()
 
