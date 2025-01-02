@@ -33,7 +33,6 @@ header {
     padding: 20px 0px;
     transition: all 0.5s ease-in-out;
     z-index: 9999;
-    background-color: rgba(0, 0, 0, 0.7); /* Transparent background */
 }
 header.sticky {
     background: #fff;
@@ -83,6 +82,17 @@ ul#main-menu a:hover {
     width: 100%;
     position: relative;
 }
+
+#banner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
 
 /* Form Styles */
 form {
