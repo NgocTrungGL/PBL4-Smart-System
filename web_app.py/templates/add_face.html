@@ -116,14 +116,17 @@
                 statusText.innerText = "Vui lòng nhập tên thư mục!";
                 return;
             }
-
+        
             if (!stream) {
                 startCamera(); // Khởi động camera nếu chưa bật
             }
-
+        
             count = 0; // Đặt lại bộ đếm
             if (intervalId) clearInterval(intervalId);
-            intervalId = setInterval(captureAndSend, 400); // Bắt đầu chụp ảnh mỗi 0.4 giây
+        
+            setTimeout(() => {
+                intervalId = setInterval(captureAndSend, 400); // Bắt đầu chụp ảnh mỗi 0.4 giây
+            }, 2000); // Delay 2s
         });
 
         // Ngừng camera khi rời khỏi trang
