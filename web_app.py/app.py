@@ -12,6 +12,7 @@ import cv2 as cv
 import pickle
 from keras_facenet import FaceNet
 from mtcnn.mtcnn import MTCNN
+# from sklearn.base import accuracy_score
 from sklearn.svm import SVC
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
@@ -28,41 +29,6 @@ def get_database_connection():
         database="smartlocksystem"  # Thay bằng tên database
     )
     return connection
-
-# Helper function to extract faces and get embeddings
-def load_classes(directory, detector):
-    X, Y = [], []
-    for sub_dir in os.listdir(directory):
-        path = os.path.join(directory, sub_dir)
-        FACES = load_faces(path, detector)
-        labels = [sub_dir] * len(FACES)
-        X.extend(FACES)
-        Y.extend(labels)
-    return np.asarray(X), np.asarray(Y)
-
-def load_faces(dir, detector):
-    FACES = []
-    for im_name in os.listdir(dir):
-        try:
-            path = os.path.join(dir, im_name)
-            face = extract_face(path, detector)
-            FACES.append(face)
-        except Exception as e:
-            pass
-    return FACES
-
-def extract_face(filename, detector):
-    img = cv.imread(filename)
-    img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
-    x, y, w, h = detector.detect_faces(img)[0]['box']
-    face = img[y:y+h, x:x+w]
-    face_arr = cv.resize(face, (160, 160))
-    return face_arr
-
-def get_embedding(face_img, embedder):
-    face_img = face_img.astype('float32')
-    face_img = np.expand_dims(face_img, axis=0)
-    return embedder.embeddings(face_img)[0]
 
 # Route trang chủ
 @app.route('/')
@@ -134,7 +100,6 @@ def save_image(folder_name, image_base64, count):
     folder_path = os.path.join(dataset_path, folder_name)
     os.makedirs(folder_path, exist_ok=True)
 
-    # Chuyển base64 thành ảnh
     try:
         image_data = base64.b64decode(image_base64.split(",")[1])
     except (IndexError, ValueError):
@@ -154,49 +119,58 @@ def save_image(folder_name, image_base64, count):
 @app.route('/save_changes')
 def save_changes():
     try:
-        # Initialize MTCNN detector and FaceNet embedder
+        dataset_dir = "../dataset"
+        target_size = (160, 160)
         detector = MTCNN()
         embedder = FaceNet()
 
-        # Define the dataset directory (ensure this is the correct path on your system)
-        dataset_dir = r"D:\Code\PBL4-Smart-System\dataset"
-        if not os.path.exists(dataset_dir):
-            raise Exception(f"Dataset directory does not exist: {dataset_dir}")
+        def extract_face(img_path):
+            img = cv.imread(img_path)
+            img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+            x, y, w, h = detector.detect_faces(img)[0]['box']
+            x, y = abs(x), abs(y)
+            face = img[y:y+h, x:x+w]
+            return cv.resize(face, target_size)
 
-        # Load images from directory (ensure dataset directory path is correct)
-        print("Loading classes from dataset...")
-        X, Y = load_classes(dataset_dir, detector)
-        print(f"Loaded {len(X)} images from {len(Y)} classes.")
+        X, Y = [], []
+        for sub_dir in os.listdir(dataset_dir):
+            sub_path = os.path.join(dataset_dir, sub_dir)
+            if os.path.isdir(sub_path):
+                for img_name in os.listdir(sub_path):
+                    img_path = os.path.join(sub_path, img_name)
+                    try:
+                        face = extract_face(img_path)
+                        X.append(face)
+                        Y.append(sub_dir)
+                    except Exception:
+                        pass
 
-        # Get embeddings for the faces
-        print("Generating face embeddings...")
-        EMBEDDED_X = [get_embedding(face, embedder) for face in X]
-        EMBEDDED_X = np.asarray(EMBEDDED_X)
+        X = np.asarray(X)
+        Y = np.asarray(Y)
 
-        # Encode labels
-        print("Encoding labels...")
+        def get_embedding(face_img):
+            face_img = face_img.astype('float32')
+            face_img = np.expand_dims(face_img, axis=0)
+            return embedder.embeddings(face_img)[0]
+
+        EMBEDDED_X = np.array([get_embedding(face) for face in X])
+        np.savez_compressed('faces_embeddings_done_4classes.npz', EMBEDDED_X, Y)
+
         encoder = LabelEncoder()
-        encoder.fit(Y)
-        Y = encoder.transform(Y)
+        Y = encoder.fit_transform(Y)
 
-        # Train SVM model
-        print("Training SVM model...")
-        X_train, X_test, Y_train, Y_test = train_test_split(EMBEDDED_X, Y, shuffle=True, random_state=17)
+        X_train, X_test, Y_train, Y_test = train_test_split(EMBEDDED_X, Y, test_size=0.2, random_state=17)
         model = SVC(kernel='linear', probability=True)
         model.fit(X_train, Y_train)
-
-        # Save the trained model
-        print("Saving trained model...")
+        
         with open('svm_model_160x160.pkl', 'wb') as f:
             pickle.dump(model, f)
 
-        # Return success message
-        return render_template('home.html', message="Changes saved and model trained successfully!")
+        return redirect(url_for('user_management'))
 
     except Exception as e:
-        # If any error occurs, display the error message
-        return render_template('home.html', message=f"An error occurred: {e}")
-
+        print(f"Error occurred: {e}")
+        return redirect(url_for('user_management'))
 
 
 @app.route('/delete_user', methods=['POST'])
